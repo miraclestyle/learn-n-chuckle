@@ -14,7 +14,7 @@ const saveFile = async (file: Readable) => {
   const fileName = `speech_${Date.now()}.mp3`
   const filePath = `${process.env.AUDIO_DIR}/${fileName}`
   await writeFile(filePath, file, 'binary')
-  return filePath
+  return fileName
 }
 
 const sendRequest = async (text: string): Promise<Readable> => {

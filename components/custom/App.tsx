@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import {
   Heading,
@@ -12,13 +13,20 @@ import {
   Audio,
 } from '@/components/primitives'
 import { PromptForm } from '@/components/composites'
+import { IPrompt } from '@/services'
 
 import { useTextGenerator, useSpeechGenerator } from '@/hooks'
 
 const App = () => {
+  const [file, setFile] = useState<string | null>(null)
   const { text, generateText, isGeneratingText } = useTextGenerator()
   const { audioUrl, generateSpeech, isGeneratingSpeech, resetUrl } =
     useSpeechGenerator()
+
+  const generate = async (data: IPrompt) => {
+    const content = await generateText(data)
+    await generateSpeech(content)
+  }
 
   const defaultMessage =
     'Please enter a topic, select a format, and click button Compose.'
@@ -31,16 +39,19 @@ const App = () => {
     <Backdrop>
       <Container>
         <Heading level={1}>Tech Comedy Central</Heading>
-        <PromptForm onSubmit={(data) => generateText(data)} />
+        <PromptForm onSubmit={(data) => generate(data)} />
         <Content>
           {isGeneratingText && <Text>{generatingMessage}</Text>}
           {!isGeneratingText && !text && <Text>{defaultMessage}</Text>}
           {!isGeneratingText && text && <Text>{text}</Text>}
-          {!isGeneratingText && !isGeneratingSpeech && text && (
-            <Button onClick={() => generateSpeech(text)}>Play</Button>
+          {!isGeneratingText && !isGeneratingSpeech && text && audioUrl && !file && (
+            <Button onClick={() => setFile(audioUrl)}>Play</Button>
           )}
-          {!isGeneratingText && !isGeneratingSpeech && audioUrl && (
-            <Audio src={audioUrl} autoPlay onEnded={resetUrl} />
+          {!isGeneratingText && !isGeneratingSpeech && text && audioUrl && file && (
+            <Button onClick={() => setFile(null)}>Stop</Button>
+          )}
+          {file && (
+            <Audio src={file} autoPlay onEnded={() => setFile(null)} />
           )}
         </Content>
         <Footer>Happy Prompting, Happy Roasting! from Promptlys !</Footer>
