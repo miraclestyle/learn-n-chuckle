@@ -9,30 +9,39 @@ import {
   Content,
   Backdrop,
   Button,
+  Audio,
 } from '@/components/primitives'
 import { PromptForm } from '@/components/composites'
 
-import { useTextGenerator } from '@/hooks'
+import { useTextGenerator, useSpeechGenerator } from '@/hooks'
 
 const App = () => {
-  const { message, generateMessage, isGenerating } = useTextGenerator()
+  const { text, generateText, isGeneratingText } = useTextGenerator()
+  const { audioUrl, generateSpeech, isGeneratingSpeech, resetUrl } =
+    useSpeechGenerator()
 
   const defaultMessage =
     'Please enter a topic, select a format, and click button Compose.'
 
   const generatingMessage = 'Processing...'
 
-  console.log('Home message:', message)
+  console.log('Home message:', text)
 
   return (
     <Backdrop>
       <Container>
         <Heading level={1}>Tech Comedy Central</Heading>
-        <PromptForm onSubmit={(data) => generateMessage(data)} />
+        <PromptForm onSubmit={(data) => generateText(data)} />
         <Content>
-          {isGenerating && <Text>{generatingMessage}</Text>}
-          {!isGenerating && !message && <Text>{defaultMessage}</Text>}
-          {!isGenerating && message && <Text>{message}</Text>}
+          {isGeneratingText && <Text>{generatingMessage}</Text>}
+          {!isGeneratingText && !text && <Text>{defaultMessage}</Text>}
+          {!isGeneratingText && text && <Text>{text}</Text>}
+          {!isGeneratingText && !isGeneratingSpeech && text && (
+            <Button onClick={() => generateSpeech(text)}>Play</Button>
+          )}
+          {!isGeneratingText && !isGeneratingSpeech && audioUrl && (
+            <Audio src={audioUrl} autoPlay onEnded={resetUrl} />
+          )}
         </Content>
         <Footer>Happy Prompting, Happy Roasting! from Promptlys !</Footer>
         <Image
