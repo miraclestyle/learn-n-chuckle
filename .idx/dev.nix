@@ -11,7 +11,10 @@
     pkgs.bun
   ];
   # Sets environment variables in the workspace
-  env = {};
+  env = {
+    OPENAI_API_KEY = "OPENAI_API_KEY";
+    ASSISTANT_ID = "ASSISTANT_ID";
+  };
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
