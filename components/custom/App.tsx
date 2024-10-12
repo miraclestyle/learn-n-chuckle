@@ -32,12 +32,10 @@ const App = () => {
 
   const generatingMessage = 'Processing...'
 
-  console.log('Home message:', text)
-
   return (
     <Backdrop>
       <Container>
-        <Heading level={1}>Tech Comedy Central</Heading>
+        <Heading level={1}>Learn And Chuckle</Heading>
         <PromptForm onSubmit={(data) => generate(data)} />
         <Content>
           {isGeneratingText && <Text>{generatingMessage}</Text>}
