@@ -21,7 +21,7 @@ const PromptForm = ({ onSubmit }: Props) => {
     control,
     formState: { errors },
   } = useForm<IPrompt>({
-    defaultValues: { topic: '', contentType: '' as ContentFormat },
+    defaultValues: { topic: '', format: '' as ContentFormat },
   })
 
   return (
@@ -36,7 +36,7 @@ const PromptForm = ({ onSubmit }: Props) => {
       />
       <Controller
         control={control}
-        name="contentType"
+        name="format"
         rules={{ required: true }}
         render={({ field: { onChange, value, ref } }) => (
           <Select
