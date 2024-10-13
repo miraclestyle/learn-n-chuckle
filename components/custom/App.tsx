@@ -12,7 +12,8 @@ import {
   Button,
   Audio,
 } from '@/components/primitives'
-import { PromptForm } from '@/components/composites'
+import { PromptForm, ILabeledPrompt } from '@/components/composites'
+import { ContentFormat, ContentLength } from '@/services'
 
 import { useAI } from '@/hooks'
 
@@ -31,8 +32,6 @@ const App = () => {
     stopAudio,
   } = useAI()
 
-  console.log('App image:', image)
-
   const defaultMessage =
     'Please enter a topic, select a format, and click button Compose.'
 
@@ -40,11 +39,13 @@ const App = () => {
 
   const isNoImage = !isGeneratingImage && image === null
 
+  const suggestions = ['LPU vs GPU', 'Explain LLM', 'Predictive AI vs Generative AI']
+
   return (
     <Backdrop>
       <Container>
         <Heading level={1}>Learn And Chuckle</Heading>
-        <PromptForm onSubmit={(data) => generate(data)} />
+        <PromptForm onSubmit={(data) => generate(data)} suggestions={suggestions} />
         <Content>
           {!isGenerating && !text && <Text>{defaultMessage}</Text>}
           {isGenerating && <Text>{generatingMessage}</Text>}

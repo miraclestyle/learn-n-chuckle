@@ -2,12 +2,13 @@
 
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { Button, Input, Select } from '@/components/primitives'
+import Suggestions from './Suggestions'
 
 import { ContentFormat, ContentLength, type IPrompt } from '@/services'
 
 const formatOptions = [
   { value: ContentFormat.Lesson, label: 'Lessons' },
-  { value: ContentFormat.Poem, label: 'Poem' },
+  { value: ContentFormat.Poem, label: 'Poems' },
   { value: ContentFormat.Meme, label: 'Memes' },
   { value: ContentFormat.VisualMeme, label: 'Visual Memes' },
 ]
@@ -19,15 +20,17 @@ const lengthOptions = [
 ]
 
 interface Props {
+  suggestions: string[]
   onSubmit: SubmitHandler<IPrompt>
 }
 
-const PromptForm = ({ onSubmit }: Props) => {
+const PromptForm = ({ onSubmit, suggestions }: Props) => {
   const {
     register,
     watch,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = useForm<IPrompt>({
     defaultValues: {
@@ -40,11 +43,19 @@ const PromptForm = ({ onSubmit }: Props) => {
   const watchFormat = watch('format')
   const isVisualMeme = watchFormat === ContentFormat.VisualMeme
 
+  const handleSuggestionSelection = (suggestion: string) => {
+    setValue('topic', suggestion)
+  }
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="min-w-64 w-full flex flex-col gap-2"
+      className="min-w-64 w-full flex flex-col gap-2 justify-center"
     >
+      <Suggestions
+        suggestions={suggestions}
+        onClick={handleSuggestionSelection}
+      />
       <Input
         {...register('topic', { required: true, maxLength: 32 })}
         type="text"
@@ -80,7 +91,10 @@ const PromptForm = ({ onSubmit }: Props) => {
           )}
         />
       )}
-      <Button type="submit">Compose</Button>
+
+      <div>
+        <Button type="submit">Compose</Button>
+      </div>
     </form>
   )
 }
