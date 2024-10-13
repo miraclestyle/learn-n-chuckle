@@ -28,8 +28,6 @@ const useAI = () => {
     } else {
       await generateSpeech(content)
     }
-
-
   }
 
   const isGenerating =
