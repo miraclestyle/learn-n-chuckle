@@ -7,7 +7,6 @@ const client = new ElevenLabsClient({
   apiKey: process.env.ELEVENLABS_API_KEY,
 })
 
-
 export const generateSpeach = async (text: string): Promise<Readable> => {
   const audio = await client.generate({
     text,
@@ -23,5 +22,3 @@ export const generateSpeach = async (text: string): Promise<Readable> => {
 
   return audio
 }
-
-

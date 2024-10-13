@@ -91,7 +91,6 @@ const PromptForm = ({ onSubmit, suggestions }: Props) => {
           )}
         />
       )}
-
       <div>
         <Button type="submit">Compose</Button>
       </div>
