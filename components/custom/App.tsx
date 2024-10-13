@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import Image from 'next/image'
 import {
   Heading,
@@ -17,7 +16,6 @@ import { PromptForm } from '@/components/composites'
 import { useAI } from '@/hooks'
 
 const App = () => {
-  const [file, setFile] = useState<string | null>(null)
   const {
     generate,
     text,
@@ -34,7 +32,7 @@ const App = () => {
   const defaultMessage =
     'Please enter a topic, select a format, and click button Compose.'
 
-  const generatingMessage = 'Processing...'
+  const generatingMessage = 'Brainstorming...'
 
   const isNoImage = !isGeneratingImage && image === null
 
@@ -56,24 +54,24 @@ const App = () => {
           suggestions={suggestions}
         />
         <Content>
-          {!isGenerating && !text && <Text>{defaultMessage}</Text>}
-          {isGenerating && <Text>{generatingMessage}</Text>}
-
           {isNoImage && !isGeneratingText && text && <Text>{text}</Text>}
 
           {!isGeneratingImage && image && (
             <Image src={image} alt="Image" width={512} height={512} priority />
           )}
 
-          {isNoImage && !isGeneratingSpeech && text && !audio && (
+          {isNoImage && !isGenerating && text && !audio && (
             <Button onClick={playAudio}>Play</Button>
           )}
-          {isNoImage && !isGeneratingSpeech && audio && (
+          {isNoImage && !isGenerating && audio && (
             <Button onClick={stopAudio}>Stop</Button>
           )}
           {isNoImage && audio && (
-            <Audio src={audio} autoPlay onEnded={() => setFile(null)} />
+            <Audio src={audio} autoPlay onEnded={stopAudio} />
           )}
+
+          {!isGenerating && !text && <Text>{defaultMessage}</Text>}
+          {isGenerating && <Text>{generatingMessage}</Text>}
         </Content>
         <Footer>Happy Prompting, Happy Roasting! from Promptlys !</Footer>
         <Image

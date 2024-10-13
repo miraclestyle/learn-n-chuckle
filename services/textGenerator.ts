@@ -38,7 +38,7 @@ const generateUserContent = (
   switch (contentFormat) {
     case ContentFormat.Lesson:
       return `${generateLessonContentTopic(topic)} ${generateContentLength(contentLength)}`
-    case ContentFormat.Lesson:
+    case ContentFormat.Poem:
       return `${generatePoemContentTopic(topic)} ${generateContentLength(contentLength)}`
     case ContentFormat.Meme:
       return `${generateMemeContentTopic(topic)} ${generateContentLength(contentLength)}`
