@@ -38,6 +38,8 @@ const App = () => {
 
   const generatingMessage = 'Processing...'
 
+  const isNoImage = !isGeneratingImage && image === null
+
   return (
     <Backdrop>
       <Container>
@@ -46,14 +48,20 @@ const App = () => {
         <Content>
           {!isGenerating && !text && <Text>{defaultMessage}</Text>}
           {isGenerating && <Text>{generatingMessage}</Text>}
-          {!isGeneratingText && text && <Text>{text}</Text>}
+
+          {isNoImage && !isGeneratingText && text && <Text>{text}</Text>}
+
           {!isGeneratingImage && image && (
             <Image src={image} alt="Image" width={512} height={512} priority />
           )}
 
-          {!isGeneratingSpeech && text && !audio && <Button onClick={playAudio}>Play</Button>}
-          {!isGeneratingSpeech && audio && <Button onClick={stopAudio}>Stop</Button>}
-          {audio && (
+          {isNoImage && !isGeneratingSpeech && text && !audio && (
+            <Button onClick={playAudio}>Play</Button>
+          )}
+          {isNoImage && !isGeneratingSpeech && audio && (
+            <Button onClick={stopAudio}>Stop</Button>
+          )}
+          {isNoImage && audio && (
             <Audio src={audio} autoPlay onEnded={() => setFile(null)} />
           )}
         </Content>
