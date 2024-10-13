@@ -3,11 +3,17 @@
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { Button, Input, Select } from '@/components/primitives'
 
-import { ContentFormat, type IPrompt } from '@/services'
+import { ContentFormat, ContentLength, type IPrompt } from '@/services'
 
-const options = [
+const formatOptions = [
   { value: ContentFormat.Lesson, label: 'Lessons' },
   { value: ContentFormat.Meme, label: 'Memes' },
+]
+
+const lengthOptions = [
+  { value: ContentLength.Short, label: 'Short' },
+  { value: ContentLength.Standard, label: 'Standard' },
+  { value: ContentLength.Long, label: 'Long' },
 ]
 
 interface Props {
@@ -21,7 +27,11 @@ const PromptForm = ({ onSubmit }: Props) => {
     control,
     formState: { errors },
   } = useForm<IPrompt>({
-    defaultValues: { topic: '', format: '' as ContentFormat },
+    defaultValues: {
+      topic: '',
+      format: '' as ContentFormat,
+      length: '' as ContentLength,
+    },
   })
 
   return (
@@ -43,8 +53,22 @@ const PromptForm = ({ onSubmit }: Props) => {
             ref={ref}
             onChange={(value) => onChange(value)}
             value={value}
-            options={options}
+            options={formatOptions}
             placeholder="Select format..."
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="length"
+        rules={{ required: true }}
+        render={({ field: { onChange, value, ref } }) => (
+          <Select
+            ref={ref}
+            onChange={(value) => onChange(value)}
+            value={value}
+            options={lengthOptions}
+            placeholder="Select length..."
           />
         )}
       />

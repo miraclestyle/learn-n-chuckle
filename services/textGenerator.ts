@@ -1,26 +1,63 @@
 'use server'
 
-import OpenAI from 'openai'
+import { generateText } from './openaiClient'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+import { IMessage, ContentFormat, ContentLength } from './interfaces'
 
-import { IMessage, ContentFormat } from './interfaces'
+const generateLessonContentLength = (contentLength: ContentLength): string => {
+  switch (contentLength) {
+    case ContentLength.Long:
+      return '80 to 100 words'
+    case ContentLength.Standard:
+      return '60 to 80 words'
+    case ContentLength.Short:
+      return '40 to 60 words'
+    default:
+      throw new Error('Invalid content length')
+  }
+}
 
-const generateLessonContent = (topic: string): string =>
-  `Create a lesson with catchy punchlines using nerdy technology terms and jargons that rhyme, for a topic titled ${topic}, in 80 to 100 words.`
+const generateMemeContentLength = (contentLength: ContentLength): string => {
+  switch (contentLength) {
+    case ContentLength.Long:
+      return '80 to 100 words'
+    case ContentLength.Standard:
+      return '60 to 80 words'
+    case ContentLength.Short:
+      return '40 to 60 words'
+    default:
+      throw new Error('Invalid content length')
+  }
+}
 
-const generateMemeContent = (topic: string): string =>
-  `Create a meme using nerdy technology terms and jargons, for a topic titled ${topic}, in 90 to 110 words.`
+const generateLessonContentTopic = (topic: string): string =>
+  `Create a lesson with catchy punchlines using nerdy technology terms and jargons that rhyme, for a topic titled ${topic}, in`
+
+const generateMemeContentTopic = (topic: string): string =>
+  `Create a description of a visual meme using nerdy technology terms and jargons, for a topic titled ${topic}, in`
+
+const generateLessonContent = (
+  topic: string,
+  contentLength: ContentLength,
+): string =>
+  `${generateLessonContentTopic(topic)} ${generateLessonContentLength(contentLength)}`
+
+const generateMemeContent = (
+  topic: string,
+  contentLength: ContentLength,
+): string =>
+  `${generateMemeContentTopic(topic)} ${generateMemeContentLength(contentLength)}`
 
 const generateUserContent = (
   topic: string,
   contentFormat: ContentFormat,
+  contentLength: ContentLength,
 ): string => {
   switch (contentFormat) {
     case ContentFormat.Lesson:
-      return generateLessonContent(topic)
+      return generateLessonContent(topic, contentLength)
     case ContentFormat.Meme:
-      return generateMemeContent(topic)
+      return generateMemeContent(topic, contentLength)
     default:
       throw new Error('Invalid content type')
   }
@@ -31,44 +68,14 @@ const generateMessage = (content: string): IMessage => ({
   content,
 })
 
-const getLastAssistantTextMessage = async (threadId: string) => {
-  const messages = await openai.beta.threads.messages.list(threadId)
-  const assistantMessages = messages.data.filter(
-    (message) => message.role === 'assistant',
-  )
-  const lastAssistantMessage = assistantMessages.pop()
-  if (lastAssistantMessage?.content[0].type !== 'text') {
-    throw new Error(
-      `Last message is not text. Message type: ${lastAssistantMessage?.content[0].type}`,
-    )
-  }
-  return lastAssistantMessage.content[0].text.value
-}
-
-const sendRequest = async (message: IMessage): Promise<string> => {
-  if (!process.env.ASSISTANT_ID) {
-    throw new Error('Missing Assistant ID')
-  }
-
-  const assistant = { assistant_id: process.env.ASSISTANT_ID }
-  const thread = await openai.beta.threads.create({ messages: [message] })
-  const run = await openai.beta.threads.runs.createAndPoll(thread.id, assistant)
-
-  if (run.status !== 'completed') {
-    throw new Error(`Run status is not completed. Status: ${run.status}`)
-  }
-
-  const content = await getLastAssistantTextMessage(thread.id)
-  return content
-}
-
 const textGenerator = async (
   topic: string,
   contentFormat: ContentFormat,
+  contentLength: ContentLength,
 ): Promise<string> => {
-  const userContent = generateUserContent(topic, contentFormat)
+  const userContent = generateUserContent(topic, contentFormat, contentLength)
   const message = generateMessage(userContent)
-  const result = await sendRequest(message)
+  const result = await generateText(message)
   return result
 }
 
