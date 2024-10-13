@@ -9,9 +9,9 @@ const generateContentLength = (contentLength: ContentLength): string => {
     case ContentLength.Long:
       return '80 to 100 words'
     case ContentLength.Standard:
-      return '60 to 80 words'
+      return '80 to 90 words'
     case ContentLength.Short:
-      return '40 to 60 words'
+      return '110 to 120 words'
     default:
       throw new Error('Invalid content length')
   }
@@ -28,7 +28,6 @@ const generateMemeContentTopic = (topic: string): string =>
 
 const generateVisualMemeContentTopic = (topic: string): string =>
   `Create a description of a visual meme using nerdy technology terms and jargons, for a topic titled ${topic}, in 60 to 80 words`
-
 
 const generateUserContent = (
   topic: string,
