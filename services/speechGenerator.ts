@@ -18,9 +18,9 @@ const sendRequest = async (text: string): Promise<Readable> => {
     voice: 'George',
     model_id: 'eleven_turbo_v2_5',
     voice_settings: {
-      stability: 0.4,
+      stability: 0.3,
       similarity_boost: 0.7,
-      style: 0.7,
+      style: 1.0,
       use_speaker_boost: true,
     },
   })
