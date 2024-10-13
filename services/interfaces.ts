@@ -1,6 +1,8 @@
 export enum ContentFormat {
   Lesson = 'lesson',
+  Poem = 'poem',
   Meme = 'meme',
+  VisualMeme = 'visualMeme',
 }
 
 export enum ContentLength {

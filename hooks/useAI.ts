@@ -23,7 +23,7 @@ const useAI = () => {
   const generate = async (data: IPrompt) => {
     const { format } = data
     const content = await generateText(data)
-    if (format === ContentFormat.Meme) {
+    if (format === ContentFormat.VisualMeme) {
       await generateImage(content)
     }
 

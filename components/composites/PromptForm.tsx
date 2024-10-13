@@ -7,7 +7,9 @@ import { ContentFormat, ContentLength, type IPrompt } from '@/services'
 
 const formatOptions = [
   { value: ContentFormat.Lesson, label: 'Lessons' },
+  { value: ContentFormat.Poem, label: 'Poem' },
   { value: ContentFormat.Meme, label: 'Memes' },
+  { value: ContentFormat.VisualMeme, label: 'Visual Memes' },
 ]
 
 const lengthOptions = [
@@ -23,6 +25,7 @@ interface Props {
 const PromptForm = ({ onSubmit }: Props) => {
   const {
     register,
+    watch,
     handleSubmit,
     control,
     formState: { errors },
@@ -33,6 +36,9 @@ const PromptForm = ({ onSubmit }: Props) => {
       length: '' as ContentLength,
     },
   })
+
+  const watchFormat = watch('format')
+  const isVisualMeme = watchFormat === ContentFormat.VisualMeme
 
   return (
     <form
@@ -58,20 +64,22 @@ const PromptForm = ({ onSubmit }: Props) => {
           />
         )}
       />
-      <Controller
-        control={control}
-        name="length"
-        rules={{ required: true }}
-        render={({ field: { onChange, value, ref } }) => (
-          <Select
-            ref={ref}
-            onChange={(value) => onChange(value)}
-            value={value}
-            options={lengthOptions}
-            placeholder="Select length..."
-          />
-        )}
-      />
+      {!isVisualMeme && (
+        <Controller
+          control={control}
+          name="length"
+          rules={{ required: true }}
+          render={({ field: { onChange, value, ref } }) => (
+            <Select
+              ref={ref}
+              onChange={(value) => onChange(value)}
+              value={value}
+              options={lengthOptions}
+              placeholder="Select length..."
+            />
+          )}
+        />
+      )}
       <Button type="submit">Compose</Button>
     </form>
   )
