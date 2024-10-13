@@ -6,7 +6,7 @@ interface Props {
 }
 
 const Suggestions = ({ suggestions, onClick }: Props) => (
-  <div className="flex flex-row flex-wrap gap-2">
+  <div className="flex flex-row flex-wrap gap-2 justify-center">
     {suggestions.map((suggestion) => (
       <Button key={suggestion} onClick={() => onClick(suggestion)}>
         {suggestion}

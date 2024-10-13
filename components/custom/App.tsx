@@ -12,8 +12,7 @@ import {
   Button,
   Audio,
 } from '@/components/primitives'
-import { PromptForm, ILabeledPrompt } from '@/components/composites'
-import { ContentFormat, ContentLength } from '@/services'
+import { PromptForm } from '@/components/composites'
 
 import { useAI } from '@/hooks'
 
@@ -39,13 +38,23 @@ const App = () => {
 
   const isNoImage = !isGeneratingImage && image === null
 
-  const suggestions = ['LPU vs GPU', 'Explain LLM', 'Predictive AI vs Generative AI']
+  const suggestions = [
+    'LPU vs GPU',
+    'Explain LLM',
+    'Predictive vs Generative',
+    'Prompt Engineering',
+    'Explain Decentralized Finance',
+    'Explain Soverign AI',
+  ]
 
   return (
     <Backdrop>
       <Container>
         <Heading level={1}>Learn And Chuckle</Heading>
-        <PromptForm onSubmit={(data) => generate(data)} suggestions={suggestions} />
+        <PromptForm
+          onSubmit={(data) => generate(data)}
+          suggestions={suggestions}
+        />
         <Content>
           {!isGenerating && !text && <Text>{defaultMessage}</Text>}
           {isGenerating && <Text>{generatingMessage}</Text>}

@@ -26,7 +26,7 @@ const useAI = () => {
     if (format === ContentFormat.VisualMeme) {
       await generateImage(content)
     } else {
-      // await generateSpeech(content)
+      await generateSpeech(content)
     }
 
 
