@@ -7,11 +7,11 @@ import { IMessage, ContentFormat, ContentLength } from './interfaces'
 const generateContentLength = (contentLength: ContentLength): string => {
   switch (contentLength) {
     case ContentLength.Long:
-      return '80 to 100 words'
+      return '110 to 120 words.'
     case ContentLength.Standard:
-      return '80 to 90 words'
+      return '80 to 90 words.'
     case ContentLength.Short:
-      return '110 to 120 words'
+      return '50 to 60 words.'
     default:
       throw new Error('Invalid content length')
   }
