@@ -50,7 +50,7 @@ const App = () => {
     <Background>
       <Backdrop>
         <Container>
-          <Heading level={1}>Learn And Chuckle</Heading>
+          <Heading level={1}>Learn & Chuckle</Heading>
           <PromptForm
             onSubmit={(data) => generate(data)}
             suggestions={suggestions}
