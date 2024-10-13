@@ -59,7 +59,7 @@ const PromptForm = ({ onSubmit, suggestions }: Props) => {
       <Input
         {...register('topic', { required: true, maxLength: 32 })}
         type="text"
-        placeholder="Write topic..."
+        placeholder="Write a topic..."
       />
       <Controller
         control={control}
@@ -71,7 +71,7 @@ const PromptForm = ({ onSubmit, suggestions }: Props) => {
             onChange={(value) => onChange(value)}
             value={value}
             options={formatOptions}
-            placeholder="Select format..."
+            placeholder="Pick a format..."
           />
         )}
       />
@@ -86,7 +86,7 @@ const PromptForm = ({ onSubmit, suggestions }: Props) => {
               onChange={(value) => onChange(value)}
               value={value}
               options={lengthOptions}
-              placeholder="Select length..."
+              placeholder="Choose response size..."
             />
           )}
         />

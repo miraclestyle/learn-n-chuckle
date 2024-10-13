@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={nunito.className}>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased h-dvh relative">{children}</body>
     </html>
   )
 }

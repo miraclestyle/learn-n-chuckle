@@ -10,6 +10,7 @@ import {
   Backdrop,
   Button,
   Audio,
+  Background,
 } from '@/components/primitives'
 import { PromptForm } from '@/components/composites'
 
@@ -46,44 +47,52 @@ const App = () => {
   ]
 
   return (
-    <Backdrop>
-      <Container>
-        <Heading level={1}>Learn And Chuckle</Heading>
-        <PromptForm
-          onSubmit={(data) => generate(data)}
-          suggestions={suggestions}
-        />
-        <Content>
-          {isNoImage && !isGeneratingText && text && <Text>{text}</Text>}
+    <Background>
+      <Backdrop>
+        <Container>
+          <Heading level={1}>Learn And Chuckle</Heading>
+          <PromptForm
+            onSubmit={(data) => generate(data)}
+            suggestions={suggestions}
+          />
+          <Content>
+            {isNoImage && !isGeneratingText && text && <Text>{text}</Text>}
 
-          {!isGeneratingImage && image && (
-            <Image src={image} alt="Image" width={512} height={512} priority />
-          )}
+            {!isGeneratingImage && image && (
+              <Image
+                src={image}
+                alt="Image"
+                width={512}
+                height={512}
+                priority
+              />
+            )}
 
-          {isNoImage && !isGenerating && text && !audio && (
-            <Button onClick={playAudio}>Play</Button>
-          )}
-          {isNoImage && !isGenerating && audio && (
-            <Button onClick={stopAudio}>Stop</Button>
-          )}
-          {isNoImage && audio && (
-            <Audio src={audio} autoPlay onEnded={stopAudio} />
-          )}
+            {isNoImage && !isGenerating && text && !audio && (
+              <Button onClick={playAudio}>Play</Button>
+            )}
+            {isNoImage && !isGenerating && audio && (
+              <Button onClick={stopAudio}>Stop</Button>
+            )}
+            {isNoImage && audio && (
+              <Audio src={audio} autoPlay onEnded={stopAudio} />
+            )}
 
-          {!isGenerating && !text && <Text>{defaultMessage}</Text>}
-          {isGenerating && <Text>{generatingMessage}</Text>}
-        </Content>
-        <Footer>Happy Prompting, Happy Roasting! from Promptlys !</Footer>
-        <Image
-          className="dark:invert"
-          src="https://msfpfmwdawonueqaevru.supabase.co/storage/v1/object/public/img/promptlys-150.png"
-          alt="Promptlys logo"
-          width={64}
-          height={64}
-          priority
-        />
-      </Container>
-    </Backdrop>
+            {!isGenerating && !text && <Text>{defaultMessage}</Text>}
+            {isGenerating && <Text>{generatingMessage}</Text>}
+          </Content>
+          <Footer>Happy Prompting, Happy Roasting! from Promptlys !</Footer>
+          <Image
+            className="dark:invert"
+            src="https://msfpfmwdawonueqaevru.supabase.co/storage/v1/object/public/img/promptlys-150.png"
+            alt="Promptlys logo"
+            width={64}
+            height={64}
+            priority
+          />
+        </Container>
+      </Backdrop>
+    </Background>
   )
 }
 
