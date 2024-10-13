@@ -1,7 +1,8 @@
 'use server'
 import { ElevenLabsClient } from 'elevenlabs'
-import { writeFile } from 'fs/promises'
 import { Readable } from 'stream'
+
+import { saveFile } from '@/services/supabaseClient'
 
 const client = new ElevenLabsClient({
   apiKey: process.env.ELEVENLABS_API_KEY,
@@ -10,12 +11,6 @@ const client = new ElevenLabsClient({
 const removeBrackets = (text: string): string =>
   text.replace(/[\[\(].*?[\]\)]|\*\*.*?\*\*/g, '')
 
-const saveFile = async (file: Readable) => {
-  const fileName = `speech_${Date.now()}.mp3`
-  const filePath = `${process.env.AUDIO_DIR}/${fileName}`
-  await writeFile(filePath, file, 'binary')
-  return fileName
-}
 
 const sendRequest = async (text: string): Promise<Readable> => {
   const audio = await client.generate({
