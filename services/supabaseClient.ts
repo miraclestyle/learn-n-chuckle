@@ -16,12 +16,21 @@ const supabase = supabaseIsAvailable
   ? createClient(SUPABASE_URL!, SUPABASE_KEY!)
   : null
 
+const streamToBuffer = async (stream: Readable): Promise<Buffer> => {
+  const chunks: Buffer[] = []
+  for await (const chunk of stream) {
+    chunks.push(chunk)
+  }
+  return Buffer.concat(chunks)
+}
+
 export const saveFile = async (file: Readable) => {
   if (!supabaseIsAvailable) throw new Error('Supabase is not available')
   const fileName = `speech_${Date.now()}.mp3`
+  const fileBuffer = await streamToBuffer(file)
   const { data, error } = await supabase!.storage
     .from(SUPABASE_BUCKET)
-    .upload(fileName, file, {
+    .upload(fileName, fileBuffer, {
       cacheControl: '3600',
       upsert: false,
     })
