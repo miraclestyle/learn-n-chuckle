@@ -8,8 +8,7 @@
 - **User-Friendly Interface**: Intuitive design that allows users to easily select topics and consume content in audio format.
 
 ## Tech Stack
-- **Frontend**: Next.js for server-side rendering and seamless user experience.
-- **Backend**: Node.js for API endpoints.
+- **Application**: Next.js for providing the fullstack application runtime environment.
 - **Database**: Supabase for managing user data and content storage.
 - **AI Integration**:
  - OpenAI API for generating educational content infused with humor.
@@ -38,10 +37,5 @@
  ```bash
  npm run dev
  ```
-
-## API Endpoints
-- **Generate Poem or Monologue**: `/api/generate-poem`
-- **Synthesize Speech with ElevenLabs**: `/api/synthesize-speech-11labs`
-- **Synthesize Speech with Google TTS**: `/api/synthesize-speech`
 
 Join us in making tech education a laughing matter—because learning should be as fun as it is informative!
